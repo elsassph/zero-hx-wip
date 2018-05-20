@@ -38,8 +38,7 @@
     "webpack-manifest-plugin": "^2.0.2"
   },
   "scripts": {
-    "heroku-postbuild": "npm run release",
-    "start": "node dist/server.js",
+    "start": "node zero-hx/start.js",
     "dev": "node zero-hx/dev.js",
     "build": "node zero-hx/build.js",
     "release": "node zero-hx/build.js -- --release"

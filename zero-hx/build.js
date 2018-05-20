@@ -99,6 +99,7 @@ const clientCompiler = webpack(clientConfig);
 clientCompiler.run((err, stats) => {
 	if (err) {
 		console.log("FAILED");
+		process.exit(1);
 		return;
 	}
 	const manifest = stats.compilation.chunks.find(
@@ -107,6 +108,7 @@ clientCompiler.run((err, stats) => {
 	const main = stats.compilation.chunks.find(chunk => chunk.name === "main");
 	if (!main) {
 		console.log("Webpack build failed silently");
+		process.exit(1);
 		return;
 	}
 	const mainAssets = manifest
