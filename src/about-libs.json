@@ -1,0 +1,13 @@
+{
+	"npmLibs": [
+		"Webpack: build system (sensible default loaders, including postcss)",
+		"Haxe-loader: Haxe compilation for Webpack",
+		"React: view layer",
+		"History: browser history management",
+		"Express: webpack server for dev and deployment"
+	],
+	"haxeLibs": [
+		"Haxe-loader: Webpack helpers",
+		"React: smart Haxe integration"
+	]
+}

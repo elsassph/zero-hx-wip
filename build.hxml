@@ -1,0 +1,10 @@
+-cp zero-hx/haxelib
+-cp node_modules/haxe-loader/haxelib
+-lib react
+-cp src
+
+-js temp.js
+-main ZeroReactRouter
+
+-D react_hot
+-D webpack_namedchunks

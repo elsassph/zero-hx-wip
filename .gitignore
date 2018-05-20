@@ -1,0 +1,5 @@
+.vscode
+vscode-project.hxml
+dist
+node_modules
+temp.js*

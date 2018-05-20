@@ -1,0 +1,31 @@
+body {
+	font-family: Arial;
+	font-size: 16px;
+}
+
+nav {
+	background: url("../image/logo.png") no-repeat 0 50% #eee;
+	padding: 10px 70px;
+}
+nav a {
+	display: inline-block;
+	padding: 10px;
+	color: blue;
+}
+nav a.active {
+	font-weight: bold;
+}
+
+footer {
+	border-top: solid 1px gray;
+	padding: 10px 20px;
+	color: gray;
+}
+
+.content {
+	padding: 20px;
+}
+.content h1 {
+	margin-top: 0;
+	color: orange;
+}
