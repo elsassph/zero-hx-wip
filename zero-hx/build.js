@@ -118,9 +118,27 @@ clientCompiler.run((err, stats) => {
 	const html = renderHtml(config, publicPath, mainAssets);
 	fs.writeFileSync(path.join(clientConfig.output.path, "index.html"), html);
 
+	setupServer();
+	console.log("SUCCESS");
+});
+
+function setupServer() {
 	fs.copyFileSync(
 		path.join(__dirname, "server.js"),
 		path.join(distFolder, "server.js")
 	);
-	console.log("SUCCESS");
-});
+	const pkg = JSON.parse(path.join(rootFolder, "package.json"));
+	const serverPkg = {
+		name: pkg.name,
+		engines: pkg.engines,
+		version: pkg.version,
+		dependencies: pkg.dependencies,
+		scripts: {
+			start: "node server.js"
+		}
+	};
+	fs.writeFileSync(
+		path.join(distFolder, "package.json"),
+		JSON.stringify(serverPkg, 2)
+	);
+}

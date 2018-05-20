@@ -4,7 +4,10 @@
     "title": "My zero test",
     "hash": "[chunkhash:7]"
   },
-  "version": "1.0.0",
+  "engines": {
+    "node": "8.9.x"
+  },
+  "version": "0.1.0",
   "description": "",
   "main": "app.js",
   "dependencies": {
@@ -12,7 +15,9 @@
     "history": "^4.7.2",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "react-dom": "^16.3.2"
+  },
+  "devDependencies": {
     "autoprefixer": "^8.4.1",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
@@ -36,10 +41,10 @@
     "webpack-manifest-plugin": "^2.0.2"
   },
   "scripts": {
-    "start": "node zero-hx/start.js",
+    "start": "node dist/server.js",
     "dev": "node zero-hx/dev.js",
-    "build": "node zero-hx/build.js",
-    "release": "node zero-hx/build.js -- --release"
+    "static": "node zero-hx/build.js",
+    "build": "node zero-hx/build.js -- --release"
   },
   "haxeDependencies": {
     "haxe": "3.4.7"
