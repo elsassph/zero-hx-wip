@@ -42,6 +42,8 @@ Goal: zero-config, full stack, Haxe web app development.
 
 ## Development
 
+Note: all the commands work with `yarn` if you prefer (it's faster).
+
     npm install
     npm run dev
 

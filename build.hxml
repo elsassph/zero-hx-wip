@@ -1,10 +1,10 @@
 -cp zero-hx/haxelib
 -cp node_modules/haxe-loader/haxelib
+
 -lib react
+-D react_hot
+
 -cp src
 
 -js temp.js
 -main ZeroReactRouter
-
--D react_hot
--D webpack_namedchunks

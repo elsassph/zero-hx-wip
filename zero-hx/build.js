@@ -1,3 +1,5 @@
+const t0 = new Date().getTime();
+
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
@@ -9,8 +11,9 @@ const renderHtml = require("./html");
 
 // prepare
 const rootFolder = process.cwd();
-const packageJson = path.resolve(rootFolder, "package.json");
-const config = JSON.parse(fs.readFileSync(packageJson)).config;
+const packageJsonPath = path.resolve(rootFolder, "package.json");
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath).toString());
+const config = packageJson.config;
 const isProd = process.argv.includes("--release");
 const isHashed = !!config.hash;
 const distFolder = path.resolve(rootFolder, "dist");
@@ -96,30 +99,41 @@ rimraf.sync(clientOutputFolder);
 
 // build
 const clientCompiler = webpack(clientConfig);
+
 clientCompiler.run((err, stats) => {
 	if (err) {
 		console.log("FAILED");
 		process.exit(1);
 		return;
 	}
-	const manifest = stats.compilation.chunks.find(
-		chunk => chunk.name === "manifest"
-	);
-	const main = stats.compilation.chunks.find(chunk => chunk.name === "main");
+
+	const info = stats.toJson();
+	if (stats.hasErrors()) {
+		console.error(info.errors);
+	}
+	if (stats.hasWarnings()) {
+		console.warn(info.warnings);
+	}
+
+	const manifest = normalizeArray(info.assetsByChunkName.manifest);
+	const main = normalizeArray(info.assetsByChunkName.main);
 	if (!main) {
-		console.log("Webpack build failed silently");
 		process.exit(1);
 		return;
 	}
 	const mainAssets = manifest
-		? manifest.files.concat(main.files)
-		: main.files;
+		? manifest.concat(main)
+		: main;
 	const publicPath = clientConfig.output.publicPath;
 	const html = renderHtml(config, publicPath, mainAssets);
 	fs.writeFileSync(path.join(clientConfig.output.path, "index.html"), html);
 
 	setupServer();
-	console.log("SUCCESS");
+
+	console.log(
+		"Completed in",
+		((new Date().getTime() - t0) / 1000).toFixed(1) + "s"
+	);
 });
 
 function setupServer() {
@@ -127,12 +141,11 @@ function setupServer() {
 		path.join(__dirname, "server.js"),
 		path.join(distFolder, "server.js")
 	);
-	const pkg = JSON.parse(path.join(rootFolder, "package.json"));
 	const serverPkg = {
-		name: pkg.name,
-		engines: pkg.engines,
-		version: pkg.version,
-		dependencies: pkg.dependencies,
+		name: packageJson.name,
+		engines: packageJson.engines,
+		version: packageJson.version,
+		dependencies: packageJson.dependencies,
 		scripts: {
 			start: "node server.js"
 		}
@@ -141,4 +154,9 @@ function setupServer() {
 		path.join(distFolder, "package.json"),
 		JSON.stringify(serverPkg, 2)
 	);
+}
+
+function normalizeArray(a) {
+	if (!a) return null;
+	return Array.isArray(a) ? a : [a];
 }

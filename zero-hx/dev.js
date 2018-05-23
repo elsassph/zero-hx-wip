@@ -61,8 +61,7 @@ server.use((req, res) => {
 	}
 
 	const stats = res.locals.webpackStats.toJson();
-	const assetsByChunkName = stats.assetsByChunkName;
-	const mainAssets = normalizeArray(assetsByChunkName.main);
+	const mainAssets = normalizeArray(stats.assetsByChunkName.main);
 	const publicPath = stats.publicPath;
 	const html = renderHtml(config, publicPath, mainAssets);
 	res.send(html);
